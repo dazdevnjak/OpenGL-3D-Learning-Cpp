@@ -1,0 +1,86 @@
+#pragma once
+#include "Component.h"
+#include "Mesh.h"
+
+class CubeRenderer : public Component {
+    float size;
+public:
+    CubeRenderer(float s = 1.0f) : size(s) {}
+
+    void render() override {
+        glutSolidCube(size);
+    }
+
+    const float& get_size() const { return this->size; }
+    void set_size(const float& s) { this->size = s; }
+};
+
+class SphereRenderer : public Component {
+    float radius;
+    int slices, stacks;
+public:
+    SphereRenderer(float r = 1.0f, int sl = 16, int st = 16) : radius(r), slices(sl), stacks(st) {}
+
+    void render() override {
+        glutSolidSphere(radius, slices, stacks);
+    }
+
+    const float& get_radius() const { return this->radius; }
+    void set_radius(const float& r) { this->radius = r; }
+    const int& get_slices() const { return this->slices; }
+    void set_slices(const int& sl) { this->slices = sl; }
+    const int& get_stacks() const { return this->stacks; }
+    void set_stacks(const int& st) { this->stacks = st; }
+};
+
+class ConeRenderer : public Component {
+    float base, height;
+    int slices, stacks;
+public:
+    ConeRenderer(float b = 1.0f, float h = 2.0f, int sl = 16, int st = 16) : base(b), height(h), slices(sl), stacks(st) {}
+
+    void render() override {
+        glutSolidCone(base, height, slices, stacks);
+    }
+
+    const float& get_base() const { return this->base; }
+    void set_base(const float& b) { this->base = b; }
+    const float& get_height() const { return this->height; }
+    void set_height(const float& h) { this->height = h; }
+    const int& get_slices() const { return this->slices; }
+    void set_slices(const int& sl) { this->slices = sl; }
+    const int& get_stacks() const { return this->stacks; }
+    void set_stacks(const int& st) { this->stacks = st; }
+};
+
+class MeshRenderer : public Component {
+    std::vector<Mesh> meshes;
+public:
+    MeshRenderer(const std::string& path) {
+        meshes = load_meshes(path);
+    }
+
+    void render() override {
+        for (const auto& mesh : meshes) {
+
+            mesh.material.apply();
+            mesh.material.handle_transparency();
+
+            if (!mesh.material.diffuse_map) {
+                glDisable(GL_LIGHTING);
+                glColor4fv(mesh.material.diffuse);
+            }
+
+            glBegin(GL_TRIANGLES);
+            for (const auto& v : mesh.vertices) {
+                glNormal3f(v.normal.x, v.normal.y, v.normal.z);
+                    Material::glMultiTexCoord2fARB(GL_TEXTURE0, v.texcoord.x, v.texcoord.y);
+                    Material::glMultiTexCoord2fARB(GL_TEXTURE1, v.texcoord.x, v.texcoord.y);
+                glVertex3f(v.position.x, v.position.y, v.position.z);
+            }
+
+            glEnd();
+            mesh.material.cleanup();
+        }
+    }
+};

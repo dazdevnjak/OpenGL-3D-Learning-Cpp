@@ -1,0 +1,62 @@
+# Build folders
+[Bb]in/
+[Oo]bj/
+out/
+
+# Visual Studio folder
+.vs/
+
+# CMake build folders
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Visual Studio specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Backup & log files
+*.log
+*.tlog
+*.tmp
+*.bak
+*.old
+*.orig
+
+# IntelliSense
+*.VC.db
+*.VC.VC.opendb
+
+# Compiled dynamic libraries
+*.dll
+*.so
+*.dylib
+
+# Compiled static libraries
+*.lib
+*.a
+
+# Executables
+*.exe
+*.out
+
+# Crash/Debug files
+*.pdb
+*.idb
+
+# VSCode
+.vscode/
+
+# Mac OS / Windows / Linux system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Unity / Unreal or others (optional additions if needed)
+*.pidb
+*.mdb
+*.opendb

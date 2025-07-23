@@ -32,12 +32,10 @@ Makefile
 *.VC.VC.opendb
 
 # Compiled dynamic libraries
-*.dll
 *.so
 *.dylib
 
 # Compiled static libraries
-*.lib
 *.a
 
 # Executables
